@@ -42,28 +42,15 @@ fun Application.configureRouting() {
 
                 dao.editArticle(id, article.title, article.body)
                 call.respondText("updated article")
-
-
             }
 
-         /*   post("{id}") {
+            delete("{id}") {
                 val id = call.parameters.getOrFail<Int>("id").toInt()
-                val formParameters = call.receiveParameters()
-                when (formParameters.getOrFail("_action")) {
-                    "update" -> {
-                        val title = formParameters.getOrFail("title")
-                        val body = formParameters.getOrFail("body")
-                        dao.editArticle(id, title, body)
-                        call.respondRedirect("/articles/$id")
-                    }
+                dao.deleteArticle(id)
+                call.respondRedirect("/articles")
+            }
 
-                    "delete" -> {
-                        dao.deleteArticle(id)
-                        call.respondRedirect("/articles")
-                    }
-                }
 
-            }*/
 
 
         }
