@@ -15,6 +15,7 @@ fun Application.configureRouting() {
         get("/") {
             call.respondText("Hello World!")
         }
+
         route("articles") {
 
             get {
@@ -34,6 +35,35 @@ fun Application.configureRouting() {
                 dao.addNewArticle(article.title,article.body)
 
             }
+
+            put("{id}") {
+                val id = call.parameters.getOrFail<Int>("id").toInt()
+                val article: Article = call.receive()
+
+                dao.editArticle(id, article.title, article.body)
+                call.respondText("updated article")
+
+
+            }
+
+         /*   post("{id}") {
+                val id = call.parameters.getOrFail<Int>("id").toInt()
+                val formParameters = call.receiveParameters()
+                when (formParameters.getOrFail("_action")) {
+                    "update" -> {
+                        val title = formParameters.getOrFail("title")
+                        val body = formParameters.getOrFail("body")
+                        dao.editArticle(id, title, body)
+                        call.respondRedirect("/articles/$id")
+                    }
+
+                    "delete" -> {
+                        dao.deleteArticle(id)
+                        call.respondRedirect("/articles")
+                    }
+                }
+
+            }*/
 
 
         }
