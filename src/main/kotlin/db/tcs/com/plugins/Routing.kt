@@ -1,6 +1,7 @@
 package db.tcs.com.plugins
 
 import db.tcs.com.data.Article
+import db.tcs.com.data.dao.DAOFacade
 import db.tcs.com.data.dao.dao
 import io.ktor.server.routing.*
 import io.ktor.http.*
@@ -8,6 +9,7 @@ import io.ktor.server.application.*
 import io.ktor.server.response.*
 import io.ktor.server.request.*
 import io.ktor.server.util.*
+import org.koin.ktor.ext.inject
 
 fun Application.configureRouting() {
 
@@ -17,9 +19,10 @@ fun Application.configureRouting() {
         }
 
         route("articles") {
-
+           // val insertService by inject<InsertNewUser>()
+            val mDao  by inject<DAOFacade>()
             get {
-                call.respond(mapOf("articles" to dao.allArticles()))
+                call.respond(mapOf("articles" to mDao.allArticles()))
             }
 
             get("{id}") {
@@ -33,6 +36,7 @@ fun Application.configureRouting() {
                 val article: Article = call.receive()
                // val article1 = call.receive<Article>()
                 dao.addNewArticle(article.title,article.body)
+                //call.respondText(""+article.id)
 
             }
 

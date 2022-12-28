@@ -1,6 +1,7 @@
 package db.tcs.com
 
 import db.tcs.com.data.dao.DatabaseFactory
+import db.tcs.com.data.di.configureKoin
 import io.ktor.server.application.*
 import db.tcs.com.plugins.*
 import io.ktor.serialization.kotlinx.json.*
@@ -17,4 +18,5 @@ fun Application.module() {
 
     DatabaseFactory.init()
     configureRouting()
+    configureKoin()
 }
