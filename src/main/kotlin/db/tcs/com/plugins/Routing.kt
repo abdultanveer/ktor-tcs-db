@@ -1,5 +1,6 @@
 package db.tcs.com.plugins
 
+import db.tcs.com.data.Article
 import db.tcs.com.data.dao.dao
 import io.ktor.server.routing.*
 import io.ktor.http.*
@@ -26,6 +27,15 @@ fun Application.configureRouting() {
                 val article = dao.article(id)
                 call.respond (mapOf("article" to article))
             }
+
+            post {
+                val article: Article = call.receive()
+               // val article1 = call.receive<Article>()
+                dao.addNewArticle(article.title,article.body)
+
+            }
+
+
         }
     }
 }
