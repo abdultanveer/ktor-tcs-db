@@ -1,5 +1,6 @@
 package db.tcs.com.plugins
 
+import db.tcs.com.data.dao.dao
 import io.ktor.server.routing.*
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -11,6 +12,10 @@ fun Application.configureRouting() {
     routing {
         get("/") {
             call.respondText("Hello World!")
+        }
+
+        get("/articles") {
+            call.respond(mapOf("articles" to dao.allArticles()))
         }
     }
 }
