@@ -6,6 +6,7 @@ import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.response.*
 import io.ktor.server.request.*
+import io.ktor.server.util.*
 
 fun Application.configureRouting() {
 
@@ -13,9 +14,18 @@ fun Application.configureRouting() {
         get("/") {
             call.respondText("Hello World!")
         }
+        route("articles") {
 
-        get("/articles") {
-            call.respond(mapOf("articles" to dao.allArticles()))
+            get {
+                call.respond(mapOf("articles" to dao.allArticles()))
+            }
+
+            get("{id}") {
+                val id = call.parameters.getOrFail<Int>("id").toInt()
+                // call.respond(FreeMarkerContent("show.ftl", mapOf("article" to dao.article(id))))
+                val article = dao.article(id)
+                call.respond (mapOf("article" to article))
+            }
         }
     }
 }
